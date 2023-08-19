@@ -11,7 +11,8 @@ CORS(app)
 def proxy(path):
     url = 'http://nginxseatalert.duckdns.org/' + path
     params = request.args
-    r = requests.get(url, params=params)
+    headers = {'X-Forwarded-For': request.remote_addr}
+    r = requests.get(url, params=params, headers=headers)
     return Response(r.text, status=r.status_code, content_type=r.headers['content-type'])
 
 
